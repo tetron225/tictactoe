@@ -29,11 +29,18 @@ function Player(name, shape) {
 const checkSquare = (x,y,shape, board) => {
     let isWinner = false;
     let count = 0;
-    const checkLeft = (x,y) => {
+    //checks if count total 
+    const checkCount = () => {
         if(count === 3) {
             isWinner = true;
-            return;
+        } else {
+            count = 0;
         }
+        return;
+    }
+    
+    //Checks the left starting from where the shape was placed.
+    const checkLeft = (x,y) => {
         if(y-1 < 0) {
             return;
         }
@@ -48,11 +55,9 @@ const checkSquare = (x,y,shape, board) => {
         }
         return;
     }
+    
+    //Checks the right starting from where the shape was placed.
     const checkRight = (x,y) => {
-        if(count === 3) {
-            isWinner = true;
-            return;
-        }
         if(y+1 > 2) {
             return;
         }
@@ -67,18 +72,155 @@ const checkSquare = (x,y,shape, board) => {
         }
         return;
     }
+    
+    //Checks the top starting from where the shape was placed.
     const checkTop = (x,y) => {
-        if(count === 3) {
-            isWinner = true;
-            return;
-        }
         if(x-1 < 0) {
             return;
         }
+        while(x > 0) {
+            if(board[x,y] === shape) {
+                count++;
+                x--;
+            }
+             else {
+                break;
+             }
+        }
+        return;
     }
 
+    
+    //Checks the bottom starting from where the shape was placed.
+    const checkBottom = (x,y) => {
+        if(x+1 > 2) {
+            return;
+        }
+        while(x < 3) {
+            if(board[x,y] === shape) {
+                count++;
+                x++;
+            } else {
+                break;
+            }
+        }
+        return;
+    }
 
-    return;
+    //Checks the top left starting from where the shape was placed.
+    const checkTopLeft = (x,y) => {
+        if(x-1 < 0 && y-1 < 0) {
+            return;
+        }
+        while(x > 0 && y > 0) {
+            if(board[x,y] === shape) {
+                count++;
+                x--;
+                y--;
+            } else {
+                break;
+            }
+        }
+        return;
+    }
+
+    //Checks the top right starting from where the shape was placed.
+    const checkTopRight = (x,y) => {
+        if(x-1 < 0 && y+1 > 2) {
+            return;
+        }
+        while(x > 0 && y < 3) {
+            if(board[x,y] === shape) {
+                count++;
+                x--;
+                y++;
+            } else {
+                break;
+            }
+        }
+        return;
+    }
+
+    //Checks the bottom left starting from where the shape was placed.
+    const checkBottomLeft = (x,y) => {
+        if(x+1 > 2 && y-1 < 0) {
+            return;
+        }
+        while(x < 3 && y > 0) {
+            if(board[x,y] === shape) {
+                count++;
+                x++;
+                y--;
+            }
+            else {
+                break;
+            }
+        }
+        return;
+    }
+
+    //Checks the bottom right starting from where the shape was placed.
+    const checkBottomRight = (x,y) => {
+        if(x+1 > 2 && y+1 > 2) {
+            return;
+        }
+        while(x < 3 && y < 3) {
+            if(board[x,y] === shape) {
+                count++;
+                x++;
+                y++;
+            } else {
+                break;
+            }
+        }
+        return;
+    }
+
+    if(x % 2 !== y % 2) {
+        checkTop(x,y);
+        checkBottom(x,y)
+        checkCount()
+        if(isWinner) {
+            //return some form of true that there is a winner
+            return true;
+        }
+        checkLeft(x,y);
+        checkRight(x,y);
+        checkCount()
+        if(isWinner) {
+            //return some form of true
+            return true;
+        }
+    } else {
+        checkTop(x,y);
+        checkBottom(x,y)
+        checkCount();
+        if(isWinner) {
+            //return some form of true that there is a winner
+            return true;
+        }
+        checkLeft(x,y);
+        checkRight(x,y);
+        checkCount();
+        if(isWinner) {
+            //return some form of true
+            return true;
+        }
+        checkTopLeft(x,y);
+        checkBottomLeft(x,y);
+        checkCount();
+        if(isWinner) {
+            return true;
+        }
+        checkTopRight(x,y);
+        checkBottomRight(x,y);
+        checkCount();
+        if(isWinner) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -90,15 +232,19 @@ const playGame = () => {
     //logic to check if theres any value thats the same on all angles
     let player1 = Player('Sam', 'X');
     let player2 = Player('Dan', 'O');
-    let round = 0;
-
+    let round = 1;
+    //creating a 9x9 board visually through DOMs manipulation
+        //Player 1 whoever it is goes first and ask
 }
 
 let somestuff = Gameboard();
 somestuff.setBoard(1, 1, 'X');
-let name = prompt("Whats your name");
 console.log(somestuff.getBoard());
-
+// let round = 1;
 let player1 = new Player('Sam', 'X');
 console.log(player1.piece);
-playGame();
+let buttonexample = document.querySelector("#buttonthing")
+// buttonexample.addEventListener("click", () => {
+//     round++;
+//     console.log(round)
+// })
