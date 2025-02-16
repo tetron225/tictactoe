@@ -235,7 +235,10 @@ const playGame = () => {
     let round = 1;
     let currentplayer = player1;
     //creating a 9x9 board visually through DOMs manipulation
-    //Player 1 whoever it is goes first and ask
+    //Player 1 whoever it is goes first and asks where he/she will place the shape
+    //the shape should be a DOM manipulated container with 9 buttons.
+    //depending on where the button is placed, it tells the location using a hash map
+    
 }
 
 let somestuff = Gameboard();
