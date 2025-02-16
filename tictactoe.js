@@ -233,8 +233,9 @@ const playGame = () => {
     let player1 = Player('Sam', 'X');
     let player2 = Player('Dan', 'O');
     let round = 1;
+    let currentplayer = player1;
     //creating a 9x9 board visually through DOMs manipulation
-        //Player 1 whoever it is goes first and ask
+    //Player 1 whoever it is goes first and ask
 }
 
 let somestuff = Gameboard();
