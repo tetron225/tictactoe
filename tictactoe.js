@@ -293,7 +293,7 @@ const playGame = () => {
         if(winner) {
             console.log("The winner is", winner);
             console.log(testboard.getBoard())
-        } else if(round === 9) {
+        } else if(round > 9) {
             console.log("Its a tie");
         } else {
             console.log('continue')
@@ -347,9 +347,23 @@ console.log(somestuff.getBoard())
 // let round = 1;
 let player1 = new Player('Sam', 'X');
 console.log(player1.shape) */
+let message = document.createElement('div');
+message.setAttribute("id", "firstmessage");
+message.textContent = "Welcome to the fun game of TTT!!!"
+let message2 = document.createElement('div');
+message2.textContent = "Please click the button to start playing"
+let container2 = document.querySelector('#container2');
+let container3 = document.querySelector('#container3');
 let buttonexample = document.querySelector("#buttonthing")
+let button = document.createElement('button');
+button.setAttribute('id', 'startbutton');
+button.textContent = "Start";
 
-buttonexample.addEventListener("click", () => {
+button.addEventListener("click", () => {
      playGame();
  })
+
+ container2.appendChild(message);
+ message.appendChild(message2);
+container3.appendChild(button);
  
