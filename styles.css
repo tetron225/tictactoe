@@ -1,0 +1,25 @@
+#container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+#container2 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+#container3 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding-top: 10px;
+}
