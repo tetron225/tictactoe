@@ -278,6 +278,7 @@ const playGame = () => {
             button.className = 'buttonmark'
             button.style.width = '100px';
             button.style.height = '100px';
+            button.style.fontSize = '80px'
             containertop.appendChild(button);
         } else if(u <= 6) {
             let button = document.createElement('button');
@@ -296,6 +297,11 @@ const playGame = () => {
         }
     }
 
+    let message1 = document.createElement('div');
+    message1.setAttribute('id', 'message1');
+    message1.textContent = `Current it is ${player1.name}'s turn`
+    container2.appendChild(message1);
+
     //create an object list of where each button value represents on a x, y value
     let coord = {
         'button1': [0,0],
@@ -311,9 +317,20 @@ const playGame = () => {
 
         //creating an event delegation to listen in on an onclick event inside a div
         containertop.addEventListener('click', () => {
-            console.log(this.document.activeElement.id);
+            console.log(document.querySelectorAll('#button1'));
+            let element = document.getElementById(`${this.document.activeElement.id}`);
             let value = coord[this.document.activeElement.id];
+            
             console.log('This was clicked at', value);
+            //currentplayer = false;
+            if(currentplayer) {
+                element.innerHTML = player1.shape;
+                console.log(element.innerHTML);
+                message1.textContent = `Currently it is ${player1.name}'s turn`
+            } else {
+                this.document.activeElement.id.value = player2.shape;
+                message1.textContent = `Currently it is ${player2.name}'s turn`
+            }
         })
     
 /*
