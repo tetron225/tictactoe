@@ -248,10 +248,126 @@ const playGame = () => {
     let winner;
     //creating a 9x9 board visually through DOMs manipulation
     //Player 1 whoever it is goes first and ask
+    let container1 = document.querySelector('#container');
+
+    let containertop = document.createElement('div');
+    containertop.setAttribute('id', 'containtop');
+    containertop.style.display = "flex";
+    containertop.style.justifyContent = "center";
+    containertop.style.alignContent = "center";
+    let containermid = document.createElement('div');
+    containermid.setAttribute('id', 'containmid');
+    containermid.style.display = "flex";
+    containermid.style.justifyContent = "center";
+    containermid.style.alignContent = "center";
+    let containerbot = document.createElement('div');
+    containerbot.setAttribute('id', 'containbot');
+    containerbot.style.display = "flex";
+    containerbot.style.justifyContent = "center";
+    containerbot.style.alignContent = "center";
+    containerbot.style.display = "flex";
+
+    container1.appendChild(containertop);
+    container1.appendChild(containermid);
+    container1.appendChild(containerbot);
+
+    for(let u = 1; u < 10; u++) {
+        if(u <= 3) {
+            let button = document.createElement('button');
+            button.setAttribute('id', `button${u}`)
+            button.className = 'buttonmark'
+            button.style.width = '100px';
+            button.style.height = '100px';
+            containertop.appendChild(button);
+        } else if(u <= 6) {
+            let button = document.createElement('button');
+            button.setAttribute('id', `button${u}`)
+            button.className = 'buttonmark'
+            button.style.width = '100px';
+            button.style.height = '100px';
+            containermid.appendChild(button);
+        } else {
+            let button = document.createElement('button');
+            button.setAttribute('id', `button${u}`)
+            button.className = 'buttonmark'
+            button.style.width = '100px';
+            button.style.height = '100px';
+            containerbot.appendChild(button);
+        }
+    }
+
+    //create an object list of where each button value represents on a x, y value
+    let coord = {
+        'button1': [0,0],
+        'button2': [0,1],
+        'button3': [0,2],
+        'button4': [1,0],
+        'button5': [1,1],
+        'button6': [1,2],
+        'button7': [2,0],
+        'button8': [2,1],
+        'button9': [2,2]
+    }
+
+        //creating an event delegation to listen in on an onclick event inside a div
+        containertop.addEventListener('click', () => {
+            console.log(this.document.activeElement.id);
+            let value = coord[this.document.activeElement.id];
+            console.log('This was clicked at', value);
+        })
+    
+/*
+
+    let button1 = document.createElement('button');
+    button1.setAttribute('id', 'button1');
+    button1.setAttribute('class', 'buttonmark');
+    let button2 = document.createElement('button');
+    button2.setAttribute('id', 'button2');
+    button2.setAttribute('class', 'buttonmark');
+    let button3 = document.createElement('button');
+    button3.setAttribute('id', 'button3');
+    button3.setAttribute('class', 'buttonmark');
+    let button4 = document.createElement('button');
+    button4.setAttribute('id', 'button4');
+    button4.setAttribute('class', 'buttonmark');
+    let button5 = document.createElement('button');
+    button5.setAttribute('id', 'button5');
+    button5.setAttribute('class', 'buttonmark');
+    let button6 = document.createElement('button');
+    button6.setAttribute('id', 'button6');
+    button6.setAttribute('class', 'buttonmark');
+    let button7 = document.createElement('button');
+    button7.setAttribute('id', 'button7');
+    button7.setAttribute('class', 'buttonmark');
+    let button8 = document.createElement('button');
+    button8.setAttribute('id', 'button8');
+    button8.setAttribute('class', 'buttonmark');
+    let button9 = document.createElement('button');
+    button9.setAttribute('id', 'button9');
+    button9.setAttribute('class', 'buttonmark');
+
+    console.log('hit')
+    
+*/
+    
+    /*
+    containertop.appendChild(button1);
+    containertop.appendChild(button2);
+    containertop.appendChild(button3);
+    containermid.appendChild(button4);
+    containermid.appendChild(button5);
+    containermid.appendChild(button6);
+    containerbot.appendChild(button7);
+    containerbot.appendChild(button8);
+    containerbot.appendChild(button9);
+*/
+
+
+
     let somebutton = document.createElement('button');
     let container = document.querySelector('#container');
     somebutton.setAttribute('id', 'abutton');
-    somebutton.textContent = 'Start';
+    somebutton.textContent = 'TicTACToeMe';
     somebutton.addEventListener('click', (e) => {
         let tempx = Math.floor(Math.random() * 3);
         let tempy = Math.floor(Math.random() * 3);
@@ -303,63 +419,30 @@ const playGame = () => {
     });
     container.appendChild(somebutton);
     
-/*
-    while(round <= 9) {
-        let tempx = Math.floor(Math.random() * 2);
-        let tempy = Math.floor(Math.random() * 2);
-        let tempboard = testboard.getBoard()
-        if(currentplayer) {
-            //quick test on logic
-            if(tempboard[tempx][tempy] === 'X' || tempboard[tempx][tempy] === 'O') {
-                continue;
-            }
-            testboard.setBoard(tempx, tempy, player1.shape);
-            let result = checkSquare(tempx, tempy, player1.shape, tempboard);
-            if(result) {
-                winner = player1.name;
-                break;
-            }
-            round++;
-            currentplayer = false;
-        } else {
-            if(tempboard[tempx][tempy] === 'X' || tempboard[tempx][tempy] === 'O') {
-                continue;
-            }
-            testboard.setBoard(tempx, tempy, player1.shape);
-            let result = checkSquare(tempx, tempy, player2.shape, tempboard);
-            if(result) {
-                winner = player2.name;
-                break;
-            }
-            round++;
-            currentplayer = true;
-        }
-    }
-        */
 }
-/*
 
-let somestuff = Gameboard();
-console.log('hit3')
-console.log(somestuff.getBoardPost(1, 0))
-somestuff.setBoard(0, 0, 'X');
-console.log(somestuff.getBoard())
-// let round = 1;
-let player1 = new Player('Sam', 'X');
-console.log(player1.shape) */
 let message = document.createElement('div');
 message.setAttribute("id", "firstmessage");
 message.textContent = "Welcome to the fun game of TTT!!!"
+
 let message2 = document.createElement('div');
 message2.textContent = "Please click the button to start playing"
+
 let container2 = document.querySelector('#container2');
 let container3 = document.querySelector('#container3');
 let buttonexample = document.querySelector("#buttonthing")
+
 let button = document.createElement('button');
 button.setAttribute('id', 'startbutton');
 button.textContent = "Start";
 
 button.addEventListener("click", () => {
+    while(container2.lastElementChild) {
+        container2.removeChild(container2.lastElementChild);
+    }
+    while(container3.lastElementChild) {
+        container3.removeChild(container3.lastElementChild);
+    }
      playGame();
  })
 
