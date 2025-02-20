@@ -259,6 +259,7 @@ const playGame = (play1, play2) => {
     let round = 1;
     let currentplayer = true;
     let winner;
+    let clickedNewGame = true;
     //creating a 9x9 board visually through DOMs manipulation
     //Player 1 whoever it is goes first and ask
     let container1 = document.querySelector('#container');
@@ -381,255 +382,270 @@ const playGame = (play1, play2) => {
     }
 
         //creating an event delegation to listen in on an onclick event inside a div
-        containertop.addEventListener('click', () => {
-            
-            console.log(document.querySelectorAll('#button1'));
-            let element = document.getElementById(`${this.document.activeElement.id}`);
-            let value = coord[this.document.activeElement.id];
-            let tempx = value[0];
-            let tempy = value[1];
-            
-            console.log('This was clicked at', value);
-            //currentplayer = false;
-            /*
-            Checks if the currentplayer is player1 or player2 using true/false to toggle.
-            It will check where the current shape is and check to see if it has 3 in a row
-            using the checkSquare method.
-            */
-            if(currentplayer) {
-                if(testboard.getBoardPost(tempx, tempy).length !== 0) {
-                    message1.textContent = 'That space is taken. Try again'
-                } else {
-                    element.innerHTML = player1.shape;
-                    testboard.setBoard(tempx, tempy, player1.shape)
-                    let result = checkSquare(tempx, tempy, player1.shape, testboard);
-
-                    if(result) {
-                        winner = player1.name;
-                    }
-
-                    message1.textContent = `Currently it is ${player1.name}'s turn`
-                    round++;
-                    message2.textContent = `ROUND ${round}`;
-                    currentplayer = false;
-                }
-                
+        containertop.addEventListener('click', (e) => {
+            if(!clickedNewGame) {
+                message1.textContent = "Current Game is over, please click the new game"
             } else {
-                if(testboard.getBoardPost(tempx, tempy).length !== 0) {
-                    message1.textContent = 'That space is taken. Try Again';
-                } else {
-                    element.innerHTML = player2.shape;
-
-                    testboard.setBoard(tempx, tempy, player2.shape)
-                    let result = checkSquare(tempx, tempy, player2.shape, testboard);
-
-                    if(result) {
-                        winner = player2.name;
-                    }
-                        
-
-                    console.log(element.innerHTML);
-                    message1.textContent = `Currently it is ${player2.name}'s turn`
-                    round++;
-                    message2.textContent = `ROUND ${round}`;
-                    currentplayer = true;
-                }
-            }
-
-            if(winner) {
-                message1.textContent = `The winner is ${winner}`;
-                if(winner === player2.name) {
-                    player2.score += 1;
-                } else {
-                    player1.score += 1;
-                }
-                let nextgame = document.createElement('button');
-                nextgame.textContent = 'Next Game';
-                nextgame.style.gap = "10px";
-                nextgame.style.borderRadius = "20px";
-                nextgame.style.width = "80px"
-                nextgame.style.height = "30px"
-                nextgame.style.border = "none";
-                nextgame.style.backgroundColor = "cyan";
-                nextgame.addEventListener('click', () => {
-                    testboard.boardReset();
-                    round = 0;
-                    while(container4.lastElementChild) {
-                        container4.removeChild(container4.lastElementChild);
-                    }
-                    //remove the buttons
-                    removeVisual();
-                    //readd the buttons
-                    createVisual();
-                    console.log(testboard.getBoard());
-                    message1.textContent = `Currently it is ${player1.name}'s turn`;
-                    round = 1;
-                    count = 1;
-                    winner = '';
-                    message2.textContent =`ROUND ${round}`;
-                    player1display.textContent = `${player1.name}: ${player1.score}`;
-                    player2display.textContent = `${player2.name}: ${player2.score}`;
-                });
-                container4.appendChild(nextgame);
+                console.log(document.querySelectorAll('#button1'));
+                let element = document.getElementById(`${this.document.activeElement.id}`);
+                let value = coord[this.document.activeElement.id];
+                let tempx = value[0];
+                let tempy = value[1];
                 
-            } else if(round > 9) {
-                message1.textContent = 'It\'s a tie';
-                let nextgame = document.createElement('button');
-                nextgame.textContent = 'Next Game';
-                nextgame.style.gap = "10px";
-                nextgame.style.borderRadius = "20px";
-                nextgame.style.width = "80px"
-                nextgame.style.height = "30px"
-                nextgame.style.border = "none";
-                nextgame.style.backgroundColor = "cyan";
-                nextgame.addEventListener('click', () => {
-                    testboard.boardReset();
-                    round = 0;
-                    while(container4.lastElementChild) {
-                        container4.removeChild(container4.lastElementChild);
+                console.log('This was clicked at', value);
+                //currentplayer = false;
+                /*
+                Checks if the currentplayer is player1 or player2 using true/false to toggle.
+                It will check where the current shape is and check to see if it has 3 in a row
+                using the checkSquare method.
+                */
+                if(currentplayer) {
+                    if(testboard.getBoardPost(tempx, tempy).length !== 0) {
+                        message1.textContent = 'That space is taken. Try again'
+                    } else {
+                        element.innerHTML = player1.shape;
+                        testboard.setBoard(tempx, tempy, player1.shape)
+                        let result = checkSquare(tempx, tempy, player1.shape, testboard);
+
+                        if(result) {
+                            winner = player1.name;
+                        }
+
+                        message1.textContent = `Currently it is ${player1.name}'s turn`
+                        round++;
+                        message2.textContent = `ROUND ${round}`;
+                        currentplayer = false;
                     }
-                    //remove the buttons
-                    removeVisual();
-                    //readd the buttons
-                    createVisual();
-                    console.log(testboard.getBoard());
-                    message1.textContent = `Currently it is ${player1.name}'s turn`;
-                    round = 1;
-                    count = 1;
-                    winner = '';
-                    message2.textContent =`ROUND ${round}`;
-                    console.log(player1.score);
-                    console.log(player2.score);
-                    player1display.textContent = `${player1.name}: ${player1.score}`;
-                    player2display.textContent = `${player2.name}: ${player2.score}`;
-                });
-                container4.appendChild(nextgame);
-            } else {
-                console.log(testboard.getBoard());
-            }
-        });
-        containermid.addEventListener('click', () => {
-            console.log(document.querySelectorAll('#button1'));
-            let element = document.getElementById(`${this.document.activeElement.id}`);
-            let value = coord[this.document.activeElement.id];
-            let tempx = value[0];
-            let tempy = value[1];
-            
-            console.log('This was clicked at', value);
-            //currentplayer = false;
-            if(currentplayer) {
-                if(testboard.getBoardPost(tempx, tempy).length !== 0) {
-                    message1.textContent = 'That space is taken. Try again'
+                    
                 } else {
-                    element.innerHTML = player1.shape;
-                    testboard.setBoard(tempx, tempy, player1.shape)
-                    let result = checkSquare(tempx, tempy, player1.shape, testboard);
+                    if(testboard.getBoardPost(tempx, tempy).length !== 0) {
+                        message1.textContent = 'That space is taken. Try Again';
+                    } else {
+                        element.innerHTML = player2.shape;
 
-                    if(result) {
-                        winner = player1.name;
+                        testboard.setBoard(tempx, tempy, player2.shape)
+                        let result = checkSquare(tempx, tempy, player2.shape, testboard);
+
+                        if(result) {
+                            winner = player2.name;
+                        }
+                            
+
+                        console.log(element.innerHTML);
+                        message1.textContent = `Currently it is ${player2.name}'s turn`
+                        round++;
+                        message2.textContent = `ROUND ${round}`;
+                        currentplayer = true;
                     }
-
-                    message1.textContent = `Currently it is ${player1.name}'s turn`
-                    round++;
-                    message2.textContent = `ROUND ${round}`;
-                    currentplayer = false;
                 }
-                
-            } else {
-                if(testboard.getBoardPost(tempx, tempy).length !== 0) {
-                    message1.textContent = 'That space is taken. Try Again';
+
+                if(winner) {
+                    message1.textContent = `The winner is ${winner}`;
+                    if(winner === player2.name) {
+                        player2.score += 1;
+                    } else {
+                        player1.score += 1;
+                    }
+                    let nextgame = document.createElement('button');
+                    nextgame.textContent = 'Next Game';
+                    nextgame.style.gap = "10px";
+                    nextgame.style.borderRadius = "20px";
+                    nextgame.style.width = "80px"
+                    nextgame.style.height = "30px"
+                    nextgame.style.border = "none";
+                    nextgame.style.backgroundColor = "cyan";
+                    nextgame.addEventListener('click', () => {
+                        clickedNewGame = true;
+                        testboard.boardReset();
+                        round = 0;
+                        while(container4.lastElementChild) {
+                            container4.removeChild(container4.lastElementChild);
+                        }
+                        //remove the buttons
+                        removeVisual();
+                        //readd the buttons
+                        createVisual();
+                        console.log(testboard.getBoard());
+                        message1.textContent = `Currently it is ${player1.name}'s turn`;
+                        round = 1;
+                        count = 1;
+                        winner = '';
+                        message2.textContent =`ROUND ${round}`;
+                        player1display.textContent = `${player1.name}: ${player1.score}`;
+                        player2display.textContent = `${player2.name}: ${player2.score}`;
+                    });
+                    container4.appendChild(nextgame);
+                    
+                } else if(round > 9) {
+                    clickedNewGame = true;
+                    message1.textContent = 'It\'s a tie';
+                    let nextgame = document.createElement('button');
+                    nextgame.textContent = 'Next Game';
+                    nextgame.style.gap = "10px";
+                    nextgame.style.borderRadius = "20px";
+                    nextgame.style.width = "80px"
+                    nextgame.style.height = "30px"
+                    nextgame.style.border = "none";
+                    nextgame.style.backgroundColor = "cyan";
+                    nextgame.addEventListener('click', () => {
+                        testboard.boardReset();
+                        round = 0;
+                        while(container4.lastElementChild) {
+                            container4.removeChild(container4.lastElementChild);
+                        }
+                        //remove the buttons
+                        removeVisual();
+                        //readd the buttons
+                        createVisual();
+                        console.log(testboard.getBoard());
+                        message1.textContent = `Currently it is ${player1.name}'s turn`;
+                        round = 1;
+                        count = 1;
+                        winner = '';
+                        message2.textContent =`ROUND ${round}`;
+                        console.log(player1.score);
+                        console.log(player2.score);
+                        player1display.textContent = `${player1.name}: ${player1.score}`;
+                        player2display.textContent = `${player2.name}: ${player2.score}`;
+                    });
+                    container4.appendChild(nextgame);
                 } else {
-                    element.innerHTML = player2.shape;
-
-                    testboard.setBoard(tempx, tempy, player2.shape)
-                    let result = checkSquare(tempx, tempy, player2.shape, testboard);
-
-                    if(result) {
-                        winner = player2.name;
-                    }
-                        
-
-                    console.log(element.innerHTML);
-                    message1.textContent = `Currently it is ${player2.name}'s turn`
-                    round++;
-                    message2.textContent = `ROUND ${round}`;
-                    currentplayer = true;
-                }
-            }
-
-            if(winner) {
-                message1.textContent = `The winner is ${winner}`;
-                if(winner === player2.name) {
-                    player2.score += 1;
-                } else {
-                    player1.score += 1;
-                }
-                let nextgame = document.createElement('button');
-                nextgame.textContent = 'Next Game';
-                nextgame.style.gap = "10px";
-                nextgame.style.borderRadius = "20px";
-                nextgame.style.width = "80px"
-                nextgame.style.height = "30px"
-                nextgame.style.border = "none";
-                nextgame.style.backgroundColor = "cyan";
-                nextgame.addEventListener('click', () => {
-                    testboard.boardReset();
-                    round = 0;
-                    while(container4.lastElementChild) {
-                        container4.removeChild(container4.lastElementChild);
-                    }
-                    //remove the buttons
-                    removeVisual();
-                    //readd the buttons
-                    createVisual();
                     console.log(testboard.getBoard());
-                    message1.textContent = `Currently it is ${player1.name}'s turn`;
-                    round = 1;
-                    count = 1;
-                    winner = '';
-                    message2.textContent =`ROUND ${round}`;
-                    player1display.textContent = `${player1.name}: ${player1.score}`;
-                    player2display.textContent = `${player2.name}: ${player2.score}`;
-                });
-                container4.appendChild(nextgame);
-                
-            } else if(round > 9) {
-                message1.textContent = 'It\'s a tie';
-                let nextgame = document.createElement('button');
-                nextgame.textContent = 'Next Game';
-                nextgame.style.gap = "10px";
-                nextgame.style.borderRadius = "20px";
-                nextgame.style.width = "80px"
-                nextgame.style.height = "30px"
-                nextgame.style.border = "none";
-                nextgame.style.backgroundColor = "cyan";
-                nextgame.addEventListener('click', () => {
-                    testboard.boardReset();
-                    round = 0;
-                    while(container4.lastElementChild) {
-                        container4.removeChild(container4.lastElementChild);
-                    }
-                    //remove the buttons
-                    removeVisual();
-                    //readd the buttons
-                    createVisual();
-                    console.log(testboard.getBoard());
-                    message1.textContent = `Currently it is ${player1.name}'s turn`;
-                    round = 1;
-                    count = 1;
-                    winner = '';
-                    message2.textContent =`ROUND ${round}`;
-                    console.log(player1.score);
-                    console.log(player2.score);
-                    player1display.textContent = `${player1.name}: ${player1.score}`;
-                    player2display.textContent = `${player2.name}: ${player2.score}`;
-                });
-                container4.appendChild(nextgame);
-            } else {
-                console.log(testboard.getBoard());
+                }
             }
         });
-        containerbot.addEventListener('click', () => {
+        containermid.addEventListener('click', (e) => {
+            if(!clickedNewGame) {
+                message1.textContent = "Current Game is over, please click the new game"
+            } else {
+                console.log(document.querySelectorAll('#button1'));
+                let element = document.getElementById(`${this.document.activeElement.id}`);
+                let value = coord[this.document.activeElement.id];
+                let tempx = value[0];
+                let tempy = value[1];
+                
+                console.log('This was clicked at', value);
+                //currentplayer = false;
+                if(currentplayer) {
+                    if(testboard.getBoardPost(tempx, tempy).length !== 0) {
+                        message1.textContent = 'That space is taken. Try again'
+                    } else {
+                        element.innerHTML = player1.shape;
+                        testboard.setBoard(tempx, tempy, player1.shape)
+                        let result = checkSquare(tempx, tempy, player1.shape, testboard);
+
+                        if(result) {
+                            winner = player1.name;
+                        }
+
+                        message1.textContent = `Currently it is ${player1.name}'s turn`
+                        round++;
+                        message2.textContent = `ROUND ${round}`;
+                        currentplayer = false;
+                    }
+                    
+                } else {
+                    if(testboard.getBoardPost(tempx, tempy).length !== 0) {
+                        message1.textContent = 'That space is taken. Try Again';
+                    } else {
+                        element.innerHTML = player2.shape;
+
+                        testboard.setBoard(tempx, tempy, player2.shape)
+                        let result = checkSquare(tempx, tempy, player2.shape, testboard);
+
+                        if(result) {
+                            winner = player2.name;
+                        }
+                            
+
+                        console.log(element.innerHTML);
+                        message1.textContent = `Currently it is ${player2.name}'s turn`
+                        round++;
+                        message2.textContent = `ROUND ${round}`;
+                        currentplayer = true;
+                    }
+                }
+
+                if(winner) {
+                    message1.textContent = `The winner is ${winner}`;
+                    if(winner === player2.name) {
+                        player2.score += 1;
+                    } else {
+                        player1.score += 1;
+                    }
+                    let nextgame = document.createElement('button');
+                    nextgame.textContent = 'Next Game';
+                    nextgame.style.gap = "10px";
+                    nextgame.style.borderRadius = "20px";
+                    nextgame.style.width = "80px"
+                    nextgame.style.height = "30px"
+                    nextgame.style.border = "none";
+                    nextgame.style.backgroundColor = "cyan";
+                    nextgame.addEventListener('click', () => {
+                        clickedNewGame = true;
+                        testboard.boardReset();
+                        round = 0;
+                        while(container4.lastElementChild) {
+                            container4.removeChild(container4.lastElementChild);
+                        }
+                        //remove the buttons
+                        removeVisual();
+                        //readd the buttons
+                        createVisual();
+                        console.log(testboard.getBoard());
+                        message1.textContent = `Currently it is ${player1.name}'s turn`;
+                        round = 1;
+                        count = 1;
+                        winner = '';
+                        message2.textContent =`ROUND ${round}`;
+                        player1display.textContent = `${player1.name}: ${player1.score}`;
+                        player2display.textContent = `${player2.name}: ${player2.score}`;
+                    });
+                    container4.appendChild(nextgame);
+                    
+                } else if(round > 9) {
+                    message1.textContent = 'It\'s a tie';
+                    let nextgame = document.createElement('button');
+                    nextgame.textContent = 'Next Game';
+                    nextgame.style.gap = "10px";
+                    nextgame.style.borderRadius = "20px";
+                    nextgame.style.width = "80px"
+                    nextgame.style.height = "30px"
+                    nextgame.style.border = "none";
+                    nextgame.style.backgroundColor = "cyan";
+                    nextgame.addEventListener('click', () => {
+                        clickedNewGame = true;
+                        testboard.boardReset();
+                        round = 0;
+                        while(container4.lastElementChild) {
+                            container4.removeChild(container4.lastElementChild);
+                        }
+                        //remove the buttons
+                        removeVisual();
+                        //readd the buttons
+                        createVisual();
+                        console.log(testboard.getBoard());
+                        message1.textContent = `Currently it is ${player1.name}'s turn`;
+                        round = 1;
+                        count = 1;
+                        winner = '';
+                        message2.textContent =`ROUND ${round}`;
+                        console.log(player1.score);
+                        console.log(player2.score);
+                        player1display.textContent = `${player1.name}: ${player1.score}`;
+                        player2display.textContent = `${player2.name}: ${player2.score}`;
+                    });
+                    container4.appendChild(nextgame);
+                } else {
+                    console.log(testboard.getBoard());
+                }
+            }
+        });
+        containerbot.addEventListener('click', (e) => {
+            if(!clickedNewGame) {
+                message1.textContent = "Current Game is over, please click the new game"
+                
+            } else {
             console.log(document.querySelectorAll('#button1'));
             let element = document.getElementById(`${this.document.activeElement.id}`);
             let value = coord[this.document.activeElement.id];
@@ -678,6 +694,7 @@ const playGame = (play1, play2) => {
             }
 
             if(winner) {
+                clickedNewGame = false;
                 message1.textContent = `The winner is ${winner}`;
                 if(winner === player2.name) {
                     player2.score += 1;
@@ -693,6 +710,7 @@ const playGame = (play1, play2) => {
                 nextgame.style.border = "none";
                 nextgame.style.backgroundColor = "cyan";
                 nextgame.addEventListener('click', () => {
+                    clickedNewGame = true;
                     testboard.boardReset();
                     round = 0;
                     while(container4.lastElementChild) {
@@ -716,6 +734,7 @@ const playGame = (play1, play2) => {
                 container4.appendChild(nextgame);
                 
             } else if(round > 9) {
+                clickedNewGame = false;
                 message1.textContent = 'It\'s a tie';
                 let nextgame = document.createElement('button');
                 nextgame.textContent = 'Next Game';
@@ -726,6 +745,7 @@ const playGame = (play1, play2) => {
                 nextgame.style.border = "none";
                 nextgame.style.backgroundColor = "cyan";
                 nextgame.addEventListener('click', () => {
+                    clickedNewGame = true;
                     testboard.boardReset();
                     round = 0;
                     while(container4.lastElementChild) {
@@ -750,6 +770,7 @@ const playGame = (play1, play2) => {
             } else {
                 console.log(testboard.getBoard());
             }
+        }
         });
     
 }
