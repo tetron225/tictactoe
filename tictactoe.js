@@ -454,6 +454,7 @@ const playGame = (play1, play2) => {
                     nextgame.style.height = "30px"
                     nextgame.style.border = "none";
                     nextgame.style.backgroundColor = "cyan";
+                    clickedNewGame = false;
                     nextgame.addEventListener('click', () => {
                         clickedNewGame = true;
                         testboard.boardReset();
@@ -581,6 +582,7 @@ const playGame = (play1, play2) => {
                     nextgame.style.height = "30px"
                     nextgame.style.border = "none";
                     nextgame.style.backgroundColor = "cyan";
+                    clickedNewGame = false;
                     nextgame.addEventListener('click', () => {
                         clickedNewGame = true;
                         testboard.boardReset();
@@ -709,6 +711,7 @@ const playGame = (play1, play2) => {
                 nextgame.style.height = "30px"
                 nextgame.style.border = "none";
                 nextgame.style.backgroundColor = "cyan";
+                clickedNewGame = false;
                 nextgame.addEventListener('click', () => {
                     clickedNewGame = true;
                     testboard.boardReset();
